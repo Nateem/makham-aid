@@ -1,0 +1,123 @@
+<div ng-controller="programController">
+    <div class="page-title">
+        <div class="title_left" ng-include="'./template/title_left.html'"></div>
+        <div class="title_right">
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2> เพิ่มกำหนดการ </h2>
+                    <div class="clearfix"></div>
+                    <div class="alert alert-info" role="alert">
+                        <h1><i class="fa fa-calendar"></i> {{form.DATERANG.startDate | amDateFormat:'ddd,ที่ Do MMMM YYYY'}} <kbd>ถึง</kbd> {{form.DATERANG.endDate | amDateFormat:'ddd,ที่ Do MMMM YYYY'}}</h1>
+                    </div>
+                </div>
+                <div class="x_content">
+                    <form name="formAddProgram" class="form-horizontal form-label-left input_mask">
+                        <input type="hidden" name="pID" id="pID" ng-model="form.ID">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group ">
+                                    <label>ระหว่างวันที่</label>
+                                    <input date-range-picker class="form-control date-picker input-lg btn btn-default" type="text" ng-model="form.DATERANG" options="rangOptions" required readonly>
+                                    <!--<input type="text" name="nDATERANG" id="nDATERANG" class="form-control input-lg" ng-model="form.DATERANG" required>-->
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group ">
+                                    <label>เรื่อง</label>
+                                    <input type="text" name="TITLE" id="TITLE" class="form-control input-lg" ng-model="form.TITLE" placeholder="เช่น ประชุมใหญ่สามัญ , ประชุมสามัญ" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group ">
+                                    <label>รายละเอียด/หมายเหตุ</label>
+                                    <textarea name="DETAIL" id="DETAIL" ng-model="form.DETAIL" rows="5" class="form-control input-lg" placeholder="เช่น เพื่อแจ้งผลการดำเนินงานประจำปีสิ้นสุด 30 กันยายน 2559 เพื่อสอบทานหนี้สินทุนเรือนหุ้น เงินกู้ และเงินฝากของสมาชิก"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <hr>
+                            <div class="col-sm-offset-6 col-sm-2">
+                                <div class="">
+                                    <button type="submit" ng-click="formSave(formAddProgram,'INSERT')" class="btn btn-primary btn-block" ng-disabled="!form.nDATERANG && !form.TITLE">
+                                        <i class="fa fa-save"></i> บันทึกใหม่
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="">
+                                    <button type="submit" ng-click="formSave(formAddProgram,'UPDATE')" class="btn btn-danger btn-block" ng-disabled="!form.ID">
+                                        <i class="fa fa-pencil"></i> บันทึกแก้ไข
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="">
+                                    <button type="button" class="btn btn-default btn-block" ng-click="btnReset(formAddProgram)">
+                                        <i class="fa fa-refresh"></i> เริ่มใหม่
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2> กำหนดการล่าสุด </h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ตัวเลือก</th>
+                                    <th>ระหว่าง</th>
+                                    <th>เรื่อง</th>
+                                    <th>รายละเอียด</th>
+                                    <th>สร้าง</th>
+                                    <th>แก้ไข</th>
+                                    <th>Option</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="p in programRepeat">
+                                    <td>
+                                        <button type="button" class="btn btn-danger" ng-click="chooseData(p.ID)">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            {{p.DATE_START | amDateFormat:'DD MMMM YYYY'}} - {{p.DATE_END | amDateFormat:'DD MMMM YYYY'}}
+                                        </span>
+                                    </td>
+                                    <td>{{p.TITLE}}</td>
+                                    <td>{{p.DETAIL}}</td>
+                                    <td><small>
+                                            {{p.CREATED | amDateFormat:'DD/MM/YYYY HH:mm:ss'}}
+                                        </small></td>
+                                    <td><small>
+                                            {{p.EDITED | amDateFormat:'DD/MM/YYYY HH:mm:ss'}}
+                                        </small></td>
+                                    <td>
+                                        <button type="button" class="btn btn-warning btn-xs" ng-click="deleteData(p.ID)">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

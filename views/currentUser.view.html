@@ -1,0 +1,36 @@
+<div ng-controller="currentUserController">
+    <div class="page-title">
+        <div class="title_left" ng-include="'./template/title_left.html'"></div>
+        <div class="title_right">
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                        <div class="profile_img">
+                            <div id="crop-avatar">
+                                <!-- Current avatar -->
+                                <img class="img-responsive avatar-view" ng-src="img/profiles/{{form.PIC}}" alt="{{form.user_NAME}}" title="{{form.user_NAME}}">
+                            </div>
+                        </div>
+                        <h3>{{form.user_NAME}}</h3>
+                        <ul class="list-unstyled user_data">                            
+                            <li>
+                                <i class="fa fa-briefcase user-profile-icon"></i> {{form.OFFICE}}
+                            </li>
+                            <li class="m-top-xs">
+                                <i class="fa fa-phone-square user-profile-icon"></i>
+                                {{form.TEL}}
+                            </li>
+                        </ul>
+                        <!--<a class="btn btn-success"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>-->
+                        <br />                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

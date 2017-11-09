@@ -1,0 +1,126 @@
+<div ng-controller="customer_valueController">
+    <div class="page-title">
+        <div class="title_left" ng-include="'./template/title_left.html'"></div>
+        <div class="title_right">
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2> รายการบันทึก </h2>
+                    <h2 class="pull-right text-danger">{{dateConvert}}</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="row">
+                        <form name="formAddEvent" ng-submit="formSave()" class="form-horizontal form-label-left input_mask">
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label><i class="fa fa-asterisk text-danger" aria-hidden="true"></i> หัวข้อ </label>
+                                    <select ng-model="form.title_ID" class="form-control input-lg" required>
+                                        <option value="" selected>- เลือกรายการ -</option>
+                                        <option value="{{t.ID}}" ng-repeat="t in titleRepeat">{{t.NAME}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label><i class="fa fa-asterisk text-danger" aria-hidden="true"></i> บริษัท/ห้างร้าน </label>
+                                    <select ng-model="form.company_ID" class="form-control input-lg" required>
+                                        <option value="" selected>- เลือกรายการ -</option>
+                                        <option value="{{c.ID}}" ng-repeat="c in companyRepeat">{{c.NAME_FULL}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label><i class="fa fa-asterisk text-danger" aria-hidden="true"></i> ประเภทสินค้า </label>
+                                    <select ng-model="form.store_type_ID" class="form-control input-lg" required>
+                                        <option value="" selected>- เลือกรายการ -</option>
+                                        <option value="{{st.ID}}" ng-repeat="st in store_typeRepeat">{{st.NAME}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group ">
+                                    <label><i class="fa fa-asterisk text-danger" aria-hidden="true"></i> วัน {{form.CURDATE | amDateFormat:'ddd ที่ Do MMMM YYYY'}}</label>
+                                    <input class="form-control date-picker input-lg" type="date" ng-model="form.CURDATE" required ng-change="autofocusGencode()">
+                                    <!--
+                                    <input type="text" name="CURDATE" id="CURDATE" class="form-control input-lg" ng-model="form.CURDATE" required>-->
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label><i class="fa fa-asterisk text-danger" aria-hidden="true"></i> รหัสสมาชิก : <small>{{detail}}</small></label>
+                                    <div class="input-group">
+                                        <input type="text" name="CUS_CODE" id="CUS_CODE" class="form-control input-lg" ng-model="form.CODE" required onfocus="this.select()" placeholder="เลขสมาชิก 7 หลัก" ng-change="chkCode(form.CODE)" ng-focus="chkCode(form.CODE)" my-enter="checkEnter(form.CODE);" autofocus>
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-danger btn-lg" ng-click="goSearch('CUS_CODE')">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group ">
+                                    <label><i class="fa fa-asterisk text-danger" aria-hidden="true"></i> ยอดเงิน</label>
+                                    <input class="form-control input-lg text-right" type="number" step="any" ng-model="form.VALUE" id="inpVALUE" required " onfocus="this.select() ">
+                                    <!--
+                                    <input type="text " name="VALUE " id="VALUE " class="form-control input-lg " ng-model="form.VALUE " required>-->
+                                </div>
+                            </div>
+                            <div class="col-sm-offset-10 col-sm-2 col-xs-12 ">
+                                <div class="form-group ">
+                                    <button type="submit " class="btn btn-primary btn-lg btn-block ">
+                                        <i class="fa fa-save "></i> บันทึก
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-xs-12 ">
+            <div class="x_panel ">
+                <div class="x_title ">
+                    <h2> รายการล่าสุด </h2>
+                    <div class="clearfix "></div>
+                </div>
+                <div class="x_content ">
+                    <div style="max-height: 200px;overflow: auto; ">
+                        <table class="table table-striped table-hover jambo_table">
+                            <thead>
+                                <tr>
+                                <th>วันที่</th>
+                                    <th>สมาชิก</th>
+                                    <th>ยอดเงิน</th>
+                                    <th>หัวข้อ</th>
+                                    <th>บริษัท/ห้างร้าน</th>
+                                    <th>ประเภทสินค้า</th>                                    
+                                    <th>เมื่อ</th>
+                                    <th>ลบ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="r in dataRepeat ">
+                                    <td>{{r.CURDATE | amDateFormat:'DD/MM/YYYY'}}</td>
+                                    <td><code>{{r.MASCODE}}</code>: {{r.customer_NAME}}</td>
+                                    <td class="text-right ">{{r.VALUE | currency:'THB '}}</td>
+                                    <td>{{r.title_NAME}}</td>
+                                    <td>{{r.company_NAME}}</td>
+                                    <td>{{r.store_type_NAME}}</td>                                    
+                                    <td>{{r.CREATED | amDateFormat:'DD/MM/YYYY HH:mm น.'}} <small>{{r.user_NAME}}</small></td>
+                                    <td><i ng-if="r.user_ID==globals.currentDATA.ID " class="fa fa-trash text-danger " style="cursor: pointer; " ng-click="deleteCustomer_value(r.ID) "></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

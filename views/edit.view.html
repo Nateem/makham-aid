@@ -1,0 +1,91 @@
+<div ng-controller="editController as showCase">
+    <div class="page-title">
+        <div class="title_left" ng-include="'./template/title_left.html'"></div>
+        <div class="title_right">
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-3 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2> จัดการ</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <h2>{{detail}}</h2>
+                    <form name="formEdit">
+                        <input type="hidden" name="iID" ng-model="form.ID">
+                        <div class="form-group">
+                            <label> หัวข้อ </label>
+                            <select ng-disabled="!form.ID" ng-model="form.title_ID" class="form-control input-lg">
+                                <option value="" selected>- เลือกรายการ -</option>
+                                <option value="{{t.ID}}" ng-repeat="t in titleRepeat">{{t.NAME}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label> บริษัท/ห้างร้าน </label>
+                            <select ng-disabled="!form.ID" ng-model="form.company_ID" class="form-control input-lg">
+                                <option value="" selected>- เลือกรายการ -</option>
+                                <option value="{{c.ID}}" ng-repeat="c in companyRepeat">{{c.NAME_FULL}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label> ประเภทสินค้า   </label>
+                            <select ng-disabled="!form.ID" ng-model="form.store_type_ID" class="form-control input-lg">
+                                <option value="" selected>- เลือกรายการ -</option>
+                                <option value="{{st.ID}}" ng-repeat="st in store_typeRepeat">{{st.NAME}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>วันที่</label>
+                            <input ng-disabled="!form.ID" type="date" name="iCURDATE" id="iCURDATE" ng-model="form.CURDATE" class="form-control date-picker input-lg" required>
+                        </div>
+                        <div class="form-group">
+                            <label>รหัสสมาชิก</label>
+                            <div class="input-group">
+                                    <input ng-disabled="!form.ID" type="text" name="CUS_CODE" id="CUS_CODE" ng-model="form.CUS_CODE" class="form-control input-lg" placeholder="รหัสสมาชิก 7 หลัก" required ng-keyup="chkCode(form.CUS_CODE)" onfocus="this.select()" ng-focus="chkCode(form.CUS_CODE)" autofocus>
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-danger btn-lg" ng-click="goSearch('CUS_CODE','ค้นหาสมาชิก',700,600)" ng-disabled="!form.ID">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            
+                        </div>
+                        <div class="form-group">
+                            <label>ยอดเงิน</label>
+                            <input ng-disabled="!form.ID" type="number" step="any" name="iVALUE" id="iVALUE" ng-model="form.VALUE" class="form-control input-lg" required>
+                        </div>
+                        
+                        <hr>
+                        <div class="btn-group pull-right" role="group">
+                            <button type="button" ng-click="formEditSubmit(formEdit)" class="btn btn-warning" ng-disabled="!form.ID || formEdit.$invalid">
+                                <i class="fa fa-edit"></i> บันทึกแก้ไข
+                            </button>
+                            <button type="button" ng-click="deleteData(formEdit,form.ID)" class="btn btn-danger" ng-disabled="!form.ID">
+                                <i class="fa fa-trash-o"></i> ยกเลิกรายการ
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2> รายการบันทึก </h2>
+                    <span class="pull-right">
+                        <button type="button" ng-click="showCase.reloadData()" class="btn btn-default">
+                            <i class="fa fa-refresh"></i> รีโหลด
+                        </button>
+                    </span>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <table datatable="" dt-options="showCase.dtOptions" dt-columns="showCase.dtColumns" dt-instance="showCase.dtInstance" class="row-border hover table table-striped jambo_table bulk_action"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
